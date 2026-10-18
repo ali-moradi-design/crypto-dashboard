@@ -1,1 +1,1 @@
-export { OrderBook, type OrderBookLabels } from './ui/OrderBook'
+export { OrderBook } from './ui/OrderBook'

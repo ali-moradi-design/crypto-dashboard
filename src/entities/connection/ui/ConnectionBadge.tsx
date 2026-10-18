@@ -1,24 +1,12 @@
 import { useSelector } from 'react-redux'
 
+import { useTranslation } from '@/shared/lib/i18n'
 import { cn } from '@/shared/lib/utils'
 
 import { selectConnectionStatus, selectIsStale } from '../model/connection-slice'
 
-const LABELS = {
-  idle: 'Offline',
-  connecting: 'Connecting',
-  open: 'Live',
-  reconnecting: 'Reconnecting',
-  closed: 'Paused',
-} as const
-
-export function ConnectionBadge({
-  labels = LABELS,
-  staleLabel = 'Data is stale',
-}: {
-  labels?: Record<keyof typeof LABELS, string>
-  staleLabel?: string
-}) {
+export function ConnectionBadge() {
+  const { t } = useTranslation()
   const status = useSelector(selectConnectionStatus)
   const stale = useSelector(selectIsStale)
   const tone = stale
@@ -33,7 +21,7 @@ export function ConnectionBadge({
     <span
       role="status"
       aria-live="polite"
-      className="inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs text-muted-foreground"
+      className="inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs whitespace-nowrap text-muted-foreground"
     >
       <span
         aria-hidden
@@ -44,7 +32,9 @@ export function ConnectionBadge({
           tone === 'off' && 'bg-muted-foreground',
         )}
       />
-      {stale ? staleLabel : labels[status]}
+      <span className={cn(status === 'open' && !stale && 'max-sm:sr-only')}>
+        {stale ? t('connection.stale') : t(`connection.${status}`)}
+      </span>
     </span>
   )
 }

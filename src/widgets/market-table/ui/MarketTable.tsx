@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import type { MarketSymbol } from '@/shared/api/market-data'
+import { useTranslation } from '@/shared/lib/i18n'
 import { cn } from '@/shared/lib/utils'
 import { Input } from '@/shared/ui/input'
 
@@ -20,11 +21,13 @@ type State = Parameters<typeof selectVisibleSymbols>[0]
 interface MarketTableProps {
   selectedSymbol?: MarketSymbol
   onSelect?: (symbol: MarketSymbol) => void
+  locale?: string
 }
 
 const DEFAULT_SORT: SortState = { key: 'default', direction: 'desc' }
 
-export function MarketTable({ selectedSymbol, onSelect }: MarketTableProps) {
+export function MarketTable({ selectedSymbol, onSelect, locale }: MarketTableProps) {
+  const { t } = useTranslation()
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<ListFilter>('all')
   const [sort, setSort] = useState<SortState>(DEFAULT_SORT)
@@ -56,12 +59,12 @@ export function MarketTable({ selectedSymbol, onSelect }: MarketTableProps) {
             onChange={(e) => {
               setQuery(e.target.value)
             }}
-            placeholder="Search pairs"
-            aria-label="Search pairs"
+            placeholder={t('markets.search')}
+            aria-label={t('markets.search')}
             className="h-8 ps-8"
           />
         </div>
-        <div role="group" aria-label="Filter" className="flex gap-1 text-xs">
+        <div role="group" aria-label={t('markets.filter')} className="flex gap-1 text-xs">
           {(['all', 'favorites'] as const).map((f) => (
             <button
               key={f}
@@ -75,7 +78,7 @@ export function MarketTable({ selectedSymbol, onSelect }: MarketTableProps) {
                 filter === f && 'bg-muted font-medium text-foreground',
               )}
             >
-              {f === 'all' ? 'All' : 'Favorites'}
+              {f === 'all' ? t('markets.all') : t('markets.favorites')}
             </button>
           ))}
         </div>
@@ -83,7 +86,7 @@ export function MarketTable({ selectedSymbol, onSelect }: MarketTableProps) {
 
       <div className="min-h-0 flex-1 overflow-y-auto">
         <table className="w-full table-fixed">
-          <caption className="sr-only">Markets</caption>
+          <caption className="sr-only">{t('panels.markets')}</caption>
           <colgroup>
             <col className="w-7" />
             <col />
@@ -94,20 +97,40 @@ export function MarketTable({ selectedSymbol, onSelect }: MarketTableProps) {
           <thead className="sticky top-0 z-10 bg-card text-xs text-muted-foreground">
             <tr className="border-b">
               <th scope="col">
-                <span className="sr-only">Favorite</span>
+                <span className="sr-only">{t('markets.favorites')}</span>
               </th>
               <th scope="col" className="py-1.5 text-start font-normal whitespace-nowrap">
-                <SortButton label="Pair" sortKey="symbol" sort={sort} onSort={toggleSort} />
+                <SortButton
+                  label={t('markets.pair')}
+                  sortKey="symbol"
+                  sort={sort}
+                  onSort={toggleSort}
+                />
                 <span aria-hidden className="mx-1">
                   /
                 </span>
-                <SortButton label="Vol" sortKey="volume" sort={sort} onSort={toggleSort} />
+                <SortButton
+                  label={t('markets.vol')}
+                  sortKey="volume"
+                  sort={sort}
+                  onSort={toggleSort}
+                />
               </th>
               <th scope="col" className="hidden sm:table-cell lg:hidden xl:table-cell">
-                <span className="sr-only">Last 24 hours</span>
+                <span className="sr-only">{t('markets.last24h')}</span>
               </th>
-              <SortHeader label="Price" sortKey="price" sort={sort} onSort={toggleSort} />
-              <SortHeader label="24h" sortKey="change" sort={sort} onSort={toggleSort} />
+              <SortHeader
+                label={t('markets.price')}
+                sortKey="price"
+                sort={sort}
+                onSort={toggleSort}
+              />
+              <SortHeader
+                label={t('markets.change')}
+                sortKey="change"
+                sort={sort}
+                onSort={toggleSort}
+              />
             </tr>
           </thead>
           <tbody>
@@ -117,6 +140,7 @@ export function MarketTable({ selectedSymbol, onSelect }: MarketTableProps) {
                 symbol={symbol}
                 selected={symbol === selectedSymbol}
                 {...(onSelect ? { onSelect } : {})}
+                {...(locale ? { locale } : {})}
               />
             ))}
           </tbody>
@@ -124,8 +148,8 @@ export function MarketTable({ selectedSymbol, onSelect }: MarketTableProps) {
         {symbols.length === 0 ? (
           <p className="p-4 text-center text-sm text-muted-foreground">
             {filter === 'favorites' && query === ''
-              ? 'No favorites yet. Tap the star on a pair.'
-              : 'No pairs found.'}
+              ? t('markets.noFavorites')
+              : t('markets.noResults')}
           </p>
         ) : null}
       </div>
@@ -144,17 +168,16 @@ function SortButton({
   sort: SortState
   onSort: (key: SortKey) => void
 }) {
+  const { t } = useTranslation()
   const active = sort.key === sortKey
   const Icon = !active ? ArrowUpDown : sort.direction === 'asc' ? ArrowUp : ArrowDown
   const state = active
-    ? sort.direction === 'asc'
-      ? ', sorted ascending'
-      : ', sorted descending'
+    ? `, ${sort.direction === 'asc' ? t('markets.sortedAsc') : t('markets.sortedDesc')}`
     : ''
   return (
     <button
       type="button"
-      aria-label={`Sort by ${label}${state}`}
+      aria-label={`${t('markets.sortBy', { column: label })}${state}`}
       onClick={() => {
         onSort(sortKey)
       }}

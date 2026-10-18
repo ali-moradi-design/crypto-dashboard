@@ -7,6 +7,7 @@ import { FavoriteButton } from '@/features/toggle-favorite'
 import type { MarketSymbol } from '@/shared/api/market-data'
 import { DEFAULT_LOCALE } from '@/shared/config/locale'
 import { formatCompact, formatPrice, guessPrecision } from '@/shared/lib/format'
+import { useTranslation } from '@/shared/lib/i18n'
 import { cn } from '@/shared/lib/utils'
 import { Skeleton } from '@/shared/ui/skeleton'
 
@@ -29,6 +30,7 @@ export function MarketRow({
   onSelect,
   locale = DEFAULT_LOCALE,
 }: MarketRowProps) {
+  const { t } = useTranslation()
   const ticker = useSelector((s: State) => selectTicker(s, symbol))
   const pair = useSelector((s: State) => selectPair(s, symbol))
   const sparkline = useSelector((s: State) => selectSparkline(s, symbol))
@@ -68,7 +70,10 @@ export function MarketRow({
       )}
     >
       <td className={cn('w-7 border-s-2 ps-0.5', selected ? 'border-ring' : 'border-transparent')}>
-        <FavoriteButton symbol={symbol} label={`Favorite ${base}/${quote}`} />
+        <FavoriteButton
+          symbol={symbol}
+          label={t('markets.favorite', { pair: `${base}/${quote}` })}
+        />
       </td>
       <th scope="row" className="truncate py-1.5 text-start font-normal whitespace-nowrap">
         <span dir="ltr" className="block">
@@ -76,7 +81,7 @@ export function MarketRow({
           <span className="text-muted-foreground">/{quote}</span>
         </span>
         <span className="tabular block text-xs text-muted-foreground">
-          {ticker ? `Vol ${formatCompact(ticker.quoteVolume, locale)}` : ' '}
+          {ticker ? t('markets.volume', { value: formatCompact(ticker.quoteVolume, locale) }) : ' '}
         </span>
       </th>
       <td className="hidden px-1 sm:table-cell lg:hidden xl:table-cell">
@@ -84,9 +89,9 @@ export function MarketRow({
           <Sparkline values={sparkline} up={ticker.changePercent >= 0} />
         ) : null}
       </td>
-      <td className="tabular px-1 text-end" dir="ltr">
+      <td className="tabular px-1 text-end">
         {ticker ? (
-          formatPrice(ticker.last, precision, locale)
+          <bdi>{formatPrice(ticker.last, precision, locale)}</bdi>
         ) : (
           <Skeleton className="ms-auto h-4 w-16" />
         )}

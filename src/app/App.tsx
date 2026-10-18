@@ -5,8 +5,7 @@ import type { MarketDataSource } from '@/shared/api/market-data'
 import { DEFAULT_LOCALE } from '@/shared/config/i18n'
 import { DEFAULT_SYMBOL } from '@/shared/config/markets'
 
-import { AppFooter } from './layout/AppFooter'
-import { AppHeader } from './layout/AppHeader'
+import { AppLayout } from './layout/AppLayout'
 import { MarketDataRoot } from './providers/MarketDataRoot'
 import { StoreProvider } from './providers/StoreProvider'
 
@@ -15,17 +14,16 @@ export function App({ createSource }: { createSource?: () => MarketDataSource })
     <StoreProvider>
       <MarketDataRoot {...(createSource ? { createSource } : {})}>
         <BrowserRouter>
-          <div className="flex min-h-dvh flex-col lg:h-dvh lg:min-h-0">
-            <AppHeader />
-            <Routes>
-              <Route path="/:lang/:pair?" element={<DashboardPage />} />
-              <Route
-                path="*"
-                element={<Navigate to={`/${DEFAULT_LOCALE}/${DEFAULT_SYMBOL}`} replace />}
-              />
-            </Routes>
-            <AppFooter />
-          </div>
+          <Routes>
+            <Route path="/:lang" element={<AppLayout />}>
+              <Route index element={<Navigate to={DEFAULT_SYMBOL} replace />} />
+              <Route path=":pair" element={<DashboardPage />} />
+            </Route>
+            <Route
+              path="*"
+              element={<Navigate to={`/${DEFAULT_LOCALE}/${DEFAULT_SYMBOL}`} replace />}
+            />
+          </Routes>
         </BrowserRouter>
       </MarketDataRoot>
     </StoreProvider>
