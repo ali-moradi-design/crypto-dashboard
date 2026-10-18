@@ -2,6 +2,7 @@ import { lazy, Suspense, type ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, useNavigate, useParams } from 'react-router'
 
+import { PriceAlertsButton, TriggeredAlerts } from '@/features/price-alerts'
 import { selectDigits } from '@/features/switch-digits'
 import { selectTheme } from '@/features/switch-theme'
 import type { MarketSymbol } from '@/shared/api/market-data'
@@ -69,7 +70,11 @@ export function DashboardPage() {
   return (
     <main className="grid flex-1 gap-2 p-2 lg:min-h-0 lg:grid-cols-[minmax(21rem,25rem)_1fr_minmax(16rem,20rem)] lg:grid-rows-[auto_minmax(0,1fr)_16rem]">
       <div className="lg:col-span-3">
-        <PairHeader symbol={pair} locale={numbers} />
+        <PairHeader
+          symbol={pair}
+          locale={numbers}
+          actions={<PriceAlertsButton symbol={pair} locale={numbers} />}
+        />
       </div>
       <Panel
         title={t('panels.markets')}
@@ -88,6 +93,7 @@ export function DashboardPage() {
       <Panel title={t('panels.trades')} className="max-h-96 lg:max-h-none lg:min-h-0">
         <TradesFeed symbol={pair} locale={numbers} />
       </Panel>
+      <TriggeredAlerts locale={numbers} />
     </main>
   )
 }

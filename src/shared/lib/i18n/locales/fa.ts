@@ -59,6 +59,7 @@ export const fa: Messages = {
     sell: 'فروش',
   },
   alerts: {
+    dismiss: 'بستن',
     title: 'هشدار قیمت',
     open: 'هشدارهای قیمت {{pair}}',
     target: 'قیمت هدف ({{asset}})',

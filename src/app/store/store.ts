@@ -1,13 +1,25 @@
-import { combineSlices, configureStore, createListenerMiddleware } from '@reduxjs/toolkit'
+import { combineSlices, configureStore, createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit'
 
 import { connectionSlice } from '@/entities/connection'
 import { orderBookSlice } from '@/entities/order-book'
-import { pairsSlice } from '@/entities/pair'
+import { pairsSlice, splitSymbol } from '@/entities/pair'
 import { tickersSlice } from '@/entities/ticker'
 import { tradesSlice } from '@/entities/trade'
+import {
+  alertAdded,
+  alertRemoved,
+  alertsSlice,
+  alertsTriggered,
+  findTriggered,
+  saveAlerts,
+  showNotification,
+} from '@/features/price-alerts'
 import { digitsChanged, digitsSlice, saveDigits } from '@/features/switch-digits'
 import { applyTheme, themeChanged, themeSlice } from '@/features/switch-theme'
 import { favoritesSlice, favoriteToggled, saveFavorites } from '@/features/toggle-favorite'
+import { isLocale } from '@/shared/config/i18n'
+import { formatPrice, guessPrecision } from '@/shared/lib/format'
+import { formatLocale, i18n } from '@/shared/lib/i18n'
 
 const rootReducer = combineSlices(
   themeSlice,
@@ -18,6 +30,7 @@ const rootReducer = combineSlices(
   connectionSlice,
   favoritesSlice,
   digitsSlice,
+  alertsSlice,
 )
 
 export type RootState = ReturnType<typeof rootReducer>
@@ -50,6 +63,47 @@ function createListeners() {
     actionCreator: digitsChanged,
     effect: (action) => {
       saveDigits(action.payload)
+    },
+  })
+
+  // Price alerts: check every frame's tickers, fire once, then remove.
+  listener.startListening({
+    actionCreator: tickersSlice.actions.tickersUpdated,
+    effect: (action, api) => {
+      const state = api.getState() as RootState
+      const hits = findTriggered(state.alerts.items, action.payload)
+      if (hits.length > 0) api.dispatch(alertsTriggered(hits))
+    },
+  })
+
+  listener.startListening({
+    actionCreator: alertsTriggered,
+    effect: (action, api) => {
+      const state = api.getState() as RootState
+      const locale = formatLocale(
+        isLocale(i18n.language) ? i18n.language : 'en',
+        state.digits.digits,
+      )
+      for (const alert of action.payload) {
+        const { base, quote } = splitSymbol(alert.symbol)
+        const precision =
+          state.pairs.bySymbol[alert.symbol]?.pricePrecision ?? guessPrecision(alert.price)
+        showNotification(
+          i18n.t('alerts.notifyTitle', {
+            pair: `${base}/${quote}`,
+            price: formatPrice(alert.price, precision, locale),
+          }),
+          i18n.t('alerts.notifyBody'),
+          alert.id,
+        )
+      }
+    },
+  })
+
+  listener.startListening({
+    matcher: isAnyOf(alertAdded, alertRemoved, alertsTriggered),
+    effect: (_action, api) => {
+      saveAlerts((api.getState() as RootState).alerts.items)
     },
   })
 
