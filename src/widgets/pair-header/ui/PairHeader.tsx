@@ -66,7 +66,7 @@ export function PairHeader({
   return (
     <section
       aria-label={`${base}/${quote}`}
-      className="flex flex-col gap-2 rounded-lg border bg-card px-3 py-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6"
+      className="flex flex-col gap-2 border bg-card px-3 py-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6"
     >
       <div className="flex items-baseline gap-3">
         <h1 className="text-lg font-semibold" dir="ltr">

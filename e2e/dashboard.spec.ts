@@ -124,4 +124,44 @@ test.describe('dashboard', () => {
     )
     expect(serious.map((v) => `${v.id}: ${String(v.nodes.length)}`)).toEqual([])
   })
+
+  test('panels can be resized and the layout is remembered', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === 'mobile', 'resizing is a desktop layout')
+    await mockGate(page)
+    await page.goto('/en/BTC_USDT')
+    const markets = page.getByRole('region', { name: 'Markets' })
+    const before = (await markets.boundingBox())?.width ?? 0
+
+    const gap = page.getByRole('separator').first()
+    const box = await gap.boundingBox()
+    if (!box) throw new Error('no separator')
+    await page.mouse.move(box.x + box.width / 2, box.y + 200)
+    await page.mouse.down()
+    await page.mouse.move(box.x + box.width / 2 + 120, box.y + 200, { steps: 8 })
+    await page.mouse.up()
+    await expect
+      .poll(async () => (await markets.boundingBox())?.width ?? 0)
+      .toBeGreaterThan(before + 100)
+
+    await page.reload()
+    await expect
+      .poll(
+        async () => (await page.getByRole('region', { name: 'Markets' }).boundingBox())?.width ?? 0,
+      )
+      .toBeGreaterThan(before + 100)
+  })
+
+  test('the page itself never scrolls on desktop', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === 'mobile', 'phones scroll the stacked layout')
+    await mockGate(page)
+    await page.goto('/en/BTC_USDT')
+    await expect(page.getByRole('region', { name: 'Recent trades' }).getByRole('row')).toHaveCount(
+      3,
+    )
+    const { scroll, client } = await page.evaluate(() => ({
+      scroll: document.documentElement.scrollHeight,
+      client: document.documentElement.clientHeight,
+    }))
+    expect(scroll).toBe(client)
+  })
 })

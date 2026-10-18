@@ -69,29 +69,30 @@
 }
 
 .dark {
-  --background: #0e1621;
-  --foreground: #e7edf3;
-  --card: #141e2c;
-  --card-foreground: #e7edf3;
-  --popover: #172234;
-  --popover-foreground: #e7edf3;
+  /* Neutral near-black panels on a slightly lighter page (exchange style). */
+  --background: #1a1a1e;
+  --foreground: #e8e8ea;
+  --card: #0f0f12;
+  --card-foreground: #e8e8ea;
+  --popover: #16161a;
+  --popover-foreground: #e8e8ea;
   --primary: #006466;
   --primary-foreground: #ffffff;
-  --secondary: #212f45;
-  --secondary-foreground: #e7edf3;
-  --muted: #1b2738;
-  --muted-foreground: #8b9bb0;
+  --secondary: #1f1f24;
+  --secondary-foreground: #e8e8ea;
+  --muted: #1a1a1f;
+  --muted-foreground: #96969e;
   --accent: #1b3a4b;
-  --accent-foreground: #e7edf3;
+  --accent-foreground: #e8e8ea;
   --destructive: #ff6475;
-  --border: #233149;
-  --input: #2a3a54;
+  --border: #26262c;
+  --input: #2e2e35;
   --ring: #2bb3b1;
 
   --up: #1fc7b6;
   --down: #ff6475;
-  --up-soft: rgb(31 199 182 / 12%);
-  --down-soft: rgb(255 100 117 / 12%);
+  --up-soft: rgb(31 199 182 / 16%);
+  --down-soft: rgb(255 100 117 / 18%);
   --up-flash: rgb(31 199 182 / 24%);
   --down-flash: rgb(255 100 117 / 24%);
   --chart-up: #17a58c;
@@ -102,7 +103,7 @@
   --chart-3: #144552;
   --chart-4: #3e1f47;
   --chart-5: #0b525b;
-  --chart-grid: #1b2738;
+  --chart-grid: #1c1c21;
 }
 
 @theme inline {

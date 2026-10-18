@@ -72,6 +72,15 @@ Gate is the only implementation (`shared/api/gate`). The adapter:
 - Static hosting must serve `index.html` for unknown paths (Nginx:
   `try_files $uri /index.html;`).
 
+## Layout
+
+- Desktop (≥ 1024 px): resizable panels with `react-resizable-panels` (through the
+  shadcn/ui `resizable` component), like the panes in VS Code. The gaps between
+  panels are the drag handles; they also work with the keyboard (arrow keys) and
+  in right-to-left. Sizes are saved in `localStorage` and restored on load.
+- The page itself never scrolls on desktop; long lists scroll inside their panel.
+- Phones: the same panels stacked, with fixed heights.
+
 ## Price alerts
 
 - Stored in `localStorage`; the direction (rises to / falls to) comes from the
@@ -105,7 +114,8 @@ Gate WebSocket ──► GateSource (parse, route by channel+pair)
 ## Performance rules
 
 - WebSocket messages are buffered and dispatched at most once per animation frame
-  (`requestAnimationFrame`). Browsers pause it in hidden tabs, so nothing renders
+  (`requestAnimationFrame`); the order book is also throttled to 4 updates per
+  second (Gate sends 10) so it stays readable. Browsers pause it in hidden tabs, so nothing renders
   there; after a minute hidden the socket closes, and it reopens (with fresh
   snapshots) when the tab is visible.
 - State is normalized (`{ "BTC_USDT": {...} }`). A ticker that did not change keeps
@@ -184,7 +194,9 @@ reports code that breaks the Rules of React, which the compiler would skip.
 - Brand palette, teal to plum:
   `#006466 #065a60 #0b525b #144552 #1b3a4b #212f45 #272640 #312244 #3e1f47 #4d194d`
   ([coolors](https://coolors.co/006466-065a60-0b525b-144552-1b3a4b-212f45-272640-312244-3e1f47-4d194d)).
-  It drives the primary color, surfaces and the brand gradient (`bg-brand-gradient`).
+  It drives the primary color, accents and the brand gradient (`bg-brand-gradient`).
+- Dark theme surfaces are neutral near-black panels (`--card: #0f0f12`) on a
+  slightly lighter page (`--background: #1a1a1e`), in the style of exchange UIs.
 - Market colors: `up` (teal-green) and `down` (red), plus `-soft` and `-flash`
   variants for depth bars and price flashes, and `chart-up` / `chart-down` for
   candles. The pairs were checked with a color-vision-deficiency validator

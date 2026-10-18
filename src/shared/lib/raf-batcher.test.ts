@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { createRafBatcher, latestByKey } from './raf-batcher'
 
@@ -60,5 +60,42 @@ describe('createRafBatcher', () => {
     batcher.cancel()
     frames.tick()
     expect(flush).not.toHaveBeenCalled()
+  })
+
+  describe('with minIntervalMs', () => {
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it('flushes at most once per interval, always with the latest value', () => {
+      vi.useFakeTimers()
+      const frames = manualFrames()
+      const flush = vi.fn()
+      let clock = 0
+      const batcher = createRafBatcher({
+        merge: (_b: number | undefined, i: number) => i,
+        flush,
+        minIntervalMs: 250,
+        now: () => clock,
+        ...frames,
+      })
+
+      batcher.push(1)
+      frames.tick()
+      expect(flush).toHaveBeenLastCalledWith(1)
+
+      // 100 ms later: too soon, wait for the interval.
+      clock = 100
+      batcher.push(2)
+      batcher.push(3)
+      frames.tick()
+      expect(flush).toHaveBeenCalledTimes(1)
+
+      clock = 250
+      vi.advanceTimersByTime(150)
+      frames.tick()
+      expect(flush).toHaveBeenCalledTimes(2)
+      expect(flush).toHaveBeenLastCalledWith(3)
+    })
   })
 })
