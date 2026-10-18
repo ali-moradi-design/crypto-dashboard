@@ -64,6 +64,7 @@ export const tr: Messages = {
     sell: 'Satış',
   },
   alerts: {
+    dismiss: 'Kapat',
     title: 'Fiyat alarmları',
     open: '{{pair}} için fiyat alarmları',
     target: 'Hedef fiyat ({{asset}})',

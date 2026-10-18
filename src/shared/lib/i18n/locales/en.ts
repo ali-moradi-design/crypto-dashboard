@@ -57,6 +57,7 @@ export const en = {
     sell: 'Sell',
   },
   alerts: {
+    dismiss: 'Dismiss',
     title: 'Price alerts',
     open: 'Price alerts for {{pair}}',
     target: 'Target price ({{asset}})',

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectPair, splitSymbol } from '@/entities/pair'
@@ -15,9 +15,12 @@ type State = Parameters<typeof selectTicker>[0] & Parameters<typeof selectPair>[
 export function PairHeader({
   symbol,
   locale = DEFAULT_LOCALE,
+  actions,
 }: {
   symbol: MarketSymbol
   locale?: string
+  /** Slot for features (e.g. price alerts); pass a stable element. */
+  actions?: ReactNode
 }) {
   const { t } = useTranslation()
   const ticker = useSelector((s: State) => selectTicker(s, symbol))
@@ -94,6 +97,7 @@ export function PairHeader({
           ticker ? formatCompact(ticker.quoteVolume, locale) : undefined,
         )}
       </dl>
+      {actions ? <div className="sm:ms-auto">{actions}</div> : null}
     </section>
   )
 }
