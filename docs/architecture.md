@@ -105,3 +105,24 @@ reports code that breaks the Rules of React, which the compiler would skip.
 - GitHub Actions runs on every pull request and on `main`:
   install → format → lint → typecheck → unit tests → build → E2E.
 - Locally, `CHROMIUM_PATH` can point Playwright to a preinstalled Chromium.
+
+## UI: colors and type
+
+- Tokens live in `src/app/styles/theme.css` as CSS variables, with the names
+  shadcn/ui expects (`--background`, `--card`, `--primary`, ...). Dark is the
+  default; `.dark` on `<html>` switches themes, and an inline script in
+  `index.html` applies the saved theme before the first paint.
+- Brand palette, teal to plum:
+  `#006466 #065a60 #0b525b #144552 #1b3a4b #212f45 #272640 #312244 #3e1f47 #4d194d`
+  ([coolors](https://coolors.co/006466-065a60-0b525b-144552-1b3a4b-212f45-272640-312244-3e1f47-4d194d)).
+  It drives the primary color, surfaces and the brand gradient (`bg-brand-gradient`).
+- Market colors: `up` (green) and `down` (red), plus `-soft` and `-flash`
+  variants for depth bars and price flashes. Color is never the only signal: an
+  arrow or sign is always shown next to it.
+- Every text color meets WCAG AA (4.5:1) on background, card and muted surfaces in
+  both themes.
+- Fonts are self-hosted (Fontsource): Inter for Latin and Turkish, Vazirmatn for
+  Persian (first in the stack when `lang="fa"`). Numbers use `tabular-nums` (the
+  `tabular` utility) so live values do not shift columns.
+- shadcn/ui components live in `src/shared/ui`, added one by one with
+  `pnpm dlx shadcn@latest add <name>`.

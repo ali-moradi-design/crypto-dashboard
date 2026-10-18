@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -9,6 +9,14 @@
       name="description"
       content="Live crypto market dashboard with real-time prices, candlestick charts, order book and trades."
     />
+    <script>
+      // Apply the saved theme before the first paint to avoid a flash.
+      try {
+        var theme = JSON.parse(localStorage.getItem('cd.theme') || '"dark"')
+        document.documentElement.classList.toggle('dark', theme !== 'light')
+        document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark'
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

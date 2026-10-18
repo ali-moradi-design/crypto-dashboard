@@ -32,6 +32,11 @@ export default defineConfig([
     extends: [js.configs.recommended],
     languageOptions: { globals: globals.node },
   },
+  {
+    // shadcn/ui files export variants next to components.
+    files: ['src/shared/ui/**/*.tsx'],
+    rules: { 'react-refresh/only-export-components': 'off' },
+  },
   // Turn off rules that conflict with Prettier. Keep this last.
   prettier,
 ])

@@ -1,0 +1,155 @@
+/*
+ * Design tokens.
+ * Brand palette (teal to plum): https://coolors.co/006466-065a60-0b525b-144552-1b3a4b-212f45-272640-312244-3e1f47-4d194d
+ * Text colors meet WCAG AA (4.5:1) on background, card and muted surfaces in both themes.
+ */
+
+:root {
+  --brand-1: #006466;
+  --brand-2: #065a60;
+  --brand-3: #0b525b;
+  --brand-4: #144552;
+  --brand-5: #1b3a4b;
+  --brand-6: #212f45;
+  --brand-7: #272640;
+  --brand-8: #312244;
+  --brand-9: #3e1f47;
+  --brand-10: #4d194d;
+  --brand-gradient: linear-gradient(
+    90deg,
+    var(--brand-1),
+    var(--brand-3),
+    var(--brand-5),
+    var(--brand-7),
+    var(--brand-10)
+  );
+
+  --radius: 0.5rem;
+  --app-font: 'Inter Variable', 'Vazirmatn Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Light theme */
+  --background: #f4f7fa;
+  --foreground: #0f1a24;
+  --card: #ffffff;
+  --card-foreground: #0f1a24;
+  --popover: #ffffff;
+  --popover-foreground: #0f1a24;
+  --primary: #006466;
+  --primary-foreground: #ffffff;
+  --secondary: #e9eef3;
+  --secondary-foreground: #1b3a4b;
+  --muted: #e9eef3;
+  --muted-foreground: #566476;
+  --accent: #e3eef0;
+  --accent-foreground: #0b525b;
+  --destructive: #c52a40;
+  --border: #d5dde6;
+  --input: #d5dde6;
+  --ring: #0b8a8c;
+
+  /* Market colors: price up and down */
+  --up: #0a7a50;
+  --down: #c52a40;
+  --up-soft: rgb(10 122 80 / 12%);
+  --down-soft: rgb(197 42 64 / 12%);
+  --up-flash: rgb(10 122 80 / 22%);
+  --down-flash: rgb(197 42 64 / 22%);
+
+  --chart-1: #006466;
+  --chart-2: #4d194d;
+  --chart-3: #144552;
+  --chart-4: #3e1f47;
+  --chart-5: #0b525b;
+  --chart-grid: #e3e9ef;
+}
+
+.dark {
+  --background: #0e1621;
+  --foreground: #e7edf3;
+  --card: #141e2c;
+  --card-foreground: #e7edf3;
+  --popover: #172234;
+  --popover-foreground: #e7edf3;
+  --primary: #006466;
+  --primary-foreground: #ffffff;
+  --secondary: #212f45;
+  --secondary-foreground: #e7edf3;
+  --muted: #1b2738;
+  --muted-foreground: #8b9bb0;
+  --accent: #1b3a4b;
+  --accent-foreground: #e7edf3;
+  --destructive: #ff6475;
+  --border: #233149;
+  --input: #2a3a54;
+  --ring: #2bb3b1;
+
+  --up: #2ebd85;
+  --down: #ff6475;
+  --up-soft: rgb(46 189 133 / 12%);
+  --down-soft: rgb(255 100 117 / 12%);
+  --up-flash: rgb(46 189 133 / 24%);
+  --down-flash: rgb(255 100 117 / 24%);
+
+  --chart-1: #2bb3b1;
+  --chart-2: #c084fc;
+  --chart-3: #144552;
+  --chart-4: #3e1f47;
+  --chart-5: #0b525b;
+  --chart-grid: #1b2738;
+}
+
+@theme inline {
+  --font-sans: var(--app-font);
+  --font-heading: var(--font-sans);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-up-soft: var(--up-soft);
+  --color-down-soft: var(--down-soft);
+  --color-up-flash: var(--up-flash);
+  --color-down-flash: var(--down-flash);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-brand-1: var(--brand-1);
+  --color-brand-10: var(--brand-10);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+/* Persian text reads better with Vazirmatn first. */
+:lang(fa) {
+  --app-font: 'Vazirmatn Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+@utility bg-brand-gradient {
+  background-image: var(--brand-gradient);
+}
+
+/* Equal-width digits so live numbers do not shift columns. */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}

@@ -1,6 +1,17 @@
 import { DashboardPage } from '@/pages/dashboard'
 
-// App layer: providers (store, router, i18n) will wrap the page here.
+import { AppFooter } from './layout/AppFooter'
+import { AppHeader } from './layout/AppHeader'
+import { StoreProvider } from './providers/StoreProvider'
+
 export function App() {
-  return <DashboardPage />
+  return (
+    <StoreProvider>
+      <div className="flex min-h-dvh flex-col">
+        <AppHeader />
+        <DashboardPage />
+        <AppFooter />
+      </div>
+    </StoreProvider>
+  )
 }
