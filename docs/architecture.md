@@ -194,7 +194,9 @@ reports code that breaks the Rules of React, which the compiler would skip.
 - Brand palette, teal to plum:
   `#006466 #065a60 #0b525b #144552 #1b3a4b #212f45 #272640 #312244 #3e1f47 #4d194d`
   ([coolors](https://coolors.co/006466-065a60-0b525b-144552-1b3a4b-212f45-272640-312244-3e1f47-4d194d)).
-  It drives the primary color, surfaces and the brand gradient (`bg-brand-gradient`).
+  It drives the primary color, accents and the brand gradient (`bg-brand-gradient`).
+- Dark theme surfaces are neutral near-black panels (`--card: #0f0f12`) on a
+  slightly lighter page (`--background: #1a1a1e`), in the style of exchange UIs.
 - Market colors: `up` (teal-green) and `down` (red), plus `-soft` and `-flash`
   variants for depth bars and price flashes, and `chart-up` / `chart-down` for
   candles. The pairs were checked with a color-vision-deficiency validator
