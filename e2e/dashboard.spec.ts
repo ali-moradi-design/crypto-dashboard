@@ -164,4 +164,32 @@ test.describe('dashboard', () => {
     }))
     expect(scroll).toBe(client)
   })
+
+  for (const [width, height] of [
+    [1024, 768],
+    [1280, 720],
+    [1920, 1080],
+  ] as const) {
+    for (const lang of ['en', 'tr', 'fa']) {
+      test(`no clipped text at ${String(width)}x${String(height)} (${lang})`, async ({
+        page,
+      }, testInfo) => {
+        test.skip(testInfo.project.name === 'mobile', 'desktop sizes')
+        await page.setViewportSize({ width, height })
+        await mockGate(page)
+        await page.goto(`/${lang}/PEPE_USDT`)
+        await expect(page.getByRole('region').nth(1).getByRole('rowheader')).toHaveCount(20)
+        const clipped = await page.evaluate(() =>
+          [
+            ...document.querySelectorAll(
+              'main th, main td, main [role="cell"], main [role="columnheader"]',
+            ),
+          ]
+            .filter((el) => el.checkVisibility() && el.scrollWidth > el.clientWidth + 1)
+            .map((el) => el.textContent.trim()),
+        )
+        expect(clipped).toEqual([])
+      })
+    }
+  }
 })

@@ -40,7 +40,7 @@ export function ChartPanel({
   const status = useCandleChart({ container, legend, symbol, interval, precision, locale, theme })
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className="@container flex min-h-0 flex-1 flex-col">
       <div className="flex flex-wrap items-center gap-2 border-b px-2 py-1.5">
         <div role="group" aria-label={t('chart.intervals')} className="flex gap-0.5" dir="ltr">
           {INTERVALS.map((i) => (
@@ -64,7 +64,7 @@ export function ChartPanel({
         <div
           ref={legend}
           dir="ltr"
-          className="tabular ms-auto truncate text-xs text-muted-foreground data-[direction=down]:text-down data-[direction=up]:text-up"
+          className="tabular basis-full text-xs text-muted-foreground data-[direction=down]:text-down data-[direction=up]:text-up @[38rem]:ms-auto @[38rem]:basis-auto"
         />
       </div>
       {/* Chart axes are never mirrored, also in RTL. */}

@@ -49,3 +49,10 @@ export function formatPercent(value: number, locale = 'en'): string {
 export function formatCompact(value: number, locale = 'en'): string {
   return numberFormat(locale, { notation: 'compact', maximumFractionDigits: 2 }).format(value)
 }
+
+/** Amounts in narrow columns: compact from one million up ("10.34B"). */
+export function formatSize(value: number, precision: number, locale = 'en'): string {
+  return Math.abs(value) >= 1_000_000
+    ? formatCompact(value, locale)
+    : formatAmount(value, precision, locale)
+}

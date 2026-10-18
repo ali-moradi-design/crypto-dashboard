@@ -83,7 +83,7 @@ export function MarketRow({
           {ticker ? t('markets.volume', { value: formatCompact(ticker.quoteVolume, locale) }) : ' '}
         </span>
       </th>
-      <td className="hidden px-1 sm:table-cell lg:hidden xl:table-cell">
+      <td className="hidden px-1 @[25rem]:table-cell">
         {sparkline && ticker ? (
           <Sparkline values={sparkline} up={ticker.changePercent >= 0} />
         ) : null}
