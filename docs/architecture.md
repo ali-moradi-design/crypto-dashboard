@@ -93,3 +93,15 @@ reports code that breaks the Rules of React, which the compiler would skip.
 | `pnpm lint`         | ESLint                         |
 | `pnpm format`       | format all files with Prettier |
 | `pnpm format:check` | check formatting (used in CI)  |
+| `pnpm test`         | unit tests (Vitest)            |
+| `pnpm test:e2e`     | E2E tests (Playwright)         |
+
+## Testing and CI
+
+- Unit tests (Vitest + Testing Library) sit next to the code: `Foo.test.tsx`.
+- E2E tests (Playwright) live in `e2e/` and run against the production build on a
+  desktop and a mobile viewport. Network calls to Gate are mocked, so tests never
+  depend on the exchange.
+- GitHub Actions runs on every pull request and on `main`:
+  install → format → lint → typecheck → unit tests → build → E2E.
+- Locally, `CHROMIUM_PATH` can point Playwright to a preinstalled Chromium.
