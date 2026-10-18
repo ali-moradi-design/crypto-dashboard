@@ -6,10 +6,10 @@ import { useMarketData, type MarketSymbol, type OrderBook } from '@/shared/api/m
 import { createRafBatcher } from '@/shared/lib/raf-batcher'
 
 export const BOOK_DEPTH = 20
-/** Gate pushes the book every 100 ms; 4 updates per second is easier to read. */
-export const BOOK_MIN_INTERVAL_MS = 250
+/** Gate pushes the book every 100 ms; 2 updates per second is easier to read. */
+export const BOOK_MIN_INTERVAL_MS = 500
 
-/** REST snapshot, then live snapshots (latest one, at most 4 per second) into the store. */
+/** REST snapshot, then live snapshots (latest one, at most 2 per second) into the store. */
 export function useOrderBookStream(symbol: MarketSymbol): void {
   const source = useMarketData()
   const dispatch = useDispatch()
