@@ -1,5 +1,7 @@
 # Crypto dashboard
 
+Built by [Ali Moradi](https://ali-moradi-develop.com).
+
 A live crypto market dashboard: real-time prices for 20 pairs, candlestick
 charts, order book, recent trades and price alerts, in English, Turkish and
 Persian (right-to-left). Market data comes from Gate's public API, straight

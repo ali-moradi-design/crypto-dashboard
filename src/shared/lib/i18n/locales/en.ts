@@ -3,6 +3,7 @@ export const en = {
     title: 'Crypto dashboard',
     notAdvice: 'Not financial advice.',
     dataFrom: 'Market data from the public <1>Gate</1> API. This is a technical demo.',
+    builtBy: 'Built by <1>Ali Moradi</1>',
     chartsBy: 'Charts by <1>TradingView</1> Lightweight Charts™.',
   },
   theme: { toDark: 'Switch to dark theme', toLight: 'Switch to light theme' },
