@@ -1,11 +1,25 @@
-/* Temporary base styles. Tailwind CSS replaces this file in a later step. */
-:root {
-  color-scheme: dark;
-  font-family: system-ui, sans-serif;
-  background: #0b0e11;
-  color: #e6e8ea;
-}
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/vazirmatn';
+@import './theme.css';
 
-body {
-  margin: 0;
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }
