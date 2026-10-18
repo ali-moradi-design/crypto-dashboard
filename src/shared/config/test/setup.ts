@@ -8,6 +8,17 @@ import { afterEach, vi } from 'vitest'
 // The real chart is covered by the Playwright tests.
 vi.mock('lightweight-charts', async () => import('./lightweight-charts-fake'))
 
+// jsdom has no matchMedia: report "no match" (phone layout).
+Object.defineProperty(window, 'matchMedia', {
+  configurable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    addEventListener: () => undefined,
+    removeEventListener: () => undefined,
+  }),
+})
+
 afterEach(() => {
   cleanup()
   localStorage.clear()

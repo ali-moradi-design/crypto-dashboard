@@ -72,6 +72,15 @@ Gate is the only implementation (`shared/api/gate`). The adapter:
 - Static hosting must serve `index.html` for unknown paths (Nginx:
   `try_files $uri /index.html;`).
 
+## Layout
+
+- Desktop (≥ 1024 px): resizable panels with `react-resizable-panels` (through the
+  shadcn/ui `resizable` component), like the panes in VS Code. The gaps between
+  panels are the drag handles; they also work with the keyboard (arrow keys) and
+  in right-to-left. Sizes are saved in `localStorage` and restored on load.
+- The page itself never scrolls on desktop; long lists scroll inside their panel.
+- Phones: the same panels stacked, with fixed heights.
+
 ## Price alerts
 
 - Stored in `localStorage`; the direction (rises to / falls to) comes from the
@@ -105,7 +114,8 @@ Gate WebSocket ──► GateSource (parse, route by channel+pair)
 ## Performance rules
 
 - WebSocket messages are buffered and dispatched at most once per animation frame
-  (`requestAnimationFrame`). Browsers pause it in hidden tabs, so nothing renders
+  (`requestAnimationFrame`); the order book is also throttled to 4 updates per
+  second (Gate sends 10) so it stays readable. Browsers pause it in hidden tabs, so nothing renders
   there; after a minute hidden the socket closes, and it reopens (with fresh
   snapshots) when the tab is visible.
 - State is normalized (`{ "BTC_USDT": {...} }`). A ticker that did not change keeps

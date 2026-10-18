@@ -10,8 +10,11 @@ interface Options<I, A> {
   merge: (batch: A | undefined, item: I) => A
   /** Receives the batch at most once per animation frame. */
   flush: (batch: A) => void
+  /** Minimum time between two flushes, ms (0 = every frame). */
+  minIntervalMs?: number
   schedule?: (cb: () => void) => number
   cancelSchedule?: (id: number) => void
+  now?: () => number
 }
 
 /**
@@ -26,30 +29,51 @@ export function createRafBatcher<I, A>({
   cancelSchedule = (id) => {
     cancelAnimationFrame(id)
   },
+  minIntervalMs = 0,
+  now = () => performance.now(),
 }: Options<I, A>): RafBatcher<I> {
   let batch: A | undefined
   let frame: number | null = null
+  let timer: ReturnType<typeof setTimeout> | null = null
+  let lastFlush = Number.NEGATIVE_INFINITY
 
   const run = () => {
     frame = null
     if (batch === undefined) return
     const current = batch
     batch = undefined
+    lastFlush = now()
     flush(current)
+  }
+
+  const stop = () => {
+    if (frame !== null) cancelSchedule(frame)
+    if (timer !== null) clearTimeout(timer)
+    frame = null
+    timer = null
   }
 
   return {
     push(item) {
       batch = merge(batch, item)
-      frame ??= schedule(run)
+      if (frame !== null || timer !== null) return
+      const wait = lastFlush + minIntervalMs - now()
+      if (wait > 0) {
+        // Throttled: wait out the interval, then flush on the next frame.
+        timer = setTimeout(() => {
+          timer = null
+          frame = schedule(run)
+        }, wait)
+      } else {
+        frame = schedule(run)
+      }
     },
     flush() {
-      if (frame !== null) cancelSchedule(frame)
+      stop()
       run()
     },
     cancel() {
-      if (frame !== null) cancelSchedule(frame)
-      frame = null
+      stop()
       batch = undefined
     },
   }

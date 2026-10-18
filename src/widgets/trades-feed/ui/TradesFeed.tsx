@@ -26,7 +26,10 @@ function TradeRow({ trade, pricePrecision, amountPrecision, locale, sideLabel }:
   const buy = trade.side === 'buy'
 
   return (
-    <div role="row" className="tabular grid grid-cols-[1fr_1fr_auto] gap-2 px-2 py-px text-xs">
+    <div
+      role="row"
+      className="tabular relative grid grid-cols-[1fr_1fr_auto] gap-2 px-2 py-px text-xs"
+    >
       <span
         role="cell"
         className={cn('inline-flex items-center gap-1', buy ? 'text-up' : 'text-down')}
