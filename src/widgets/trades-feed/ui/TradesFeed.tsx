@@ -6,30 +6,13 @@ import { selectTrades } from '@/entities/trade'
 import type { MarketSymbol, Trade } from '@/shared/api/market-data'
 import { DEFAULT_LOCALE } from '@/shared/config/locale'
 import { formatAmount, formatClock, formatPrice, guessPrecision } from '@/shared/lib/format'
+import { useTranslation } from '@/shared/lib/i18n'
 import { cn } from '@/shared/lib/utils'
 import { Skeleton } from '@/shared/ui/skeleton'
 
 import { useTradesStream } from '../model/use-trades-stream'
 
 type State = Parameters<typeof selectTrades>[0] & Parameters<typeof selectPair>[0]
-
-export interface TradesFeedLabels {
-  price: (quote: string) => string
-  amount: (base: string) => string
-  time: string
-  buy: string
-  sell: string
-  empty: string
-}
-
-const LABELS: TradesFeedLabels = {
-  price: (q) => `Price (${q})`,
-  amount: (b) => `Amount (${b})`,
-  time: 'Time',
-  buy: 'Buy',
-  sell: 'Sell',
-  empty: 'No trades yet.',
-}
 
 interface RowProps {
   trade: Trade
@@ -80,12 +63,11 @@ function TradeRow({ trade, pricePrecision, amountPrecision, locale, sideLabel }:
 export function TradesFeed({
   symbol,
   locale = DEFAULT_LOCALE,
-  labels = LABELS,
 }: {
   symbol: MarketSymbol
   locale?: string
-  labels?: TradesFeedLabels
 }) {
+  const { t } = useTranslation()
   useTradesStream(symbol)
   const trades = useSelector(selectTrades)
   const pair = useSelector((s: State) => selectPair(s, symbol))
@@ -104,12 +86,12 @@ export function TradesFeed({
         role="row"
         className="grid grid-cols-[1fr_1fr_auto] gap-2 px-2 pb-1 text-[0.7rem] text-muted-foreground"
       >
-        <span role="columnheader">{labels.price(quote)}</span>
+        <span role="columnheader">{t('trades.price', { asset: quote })}</span>
         <span role="columnheader" className="text-end">
-          {labels.amount(base)}
+          {t('trades.amount', { asset: base })}
         </span>
         <span role="columnheader" className="text-end">
-          {labels.time}
+          {t('trades.time')}
         </span>
       </div>
       <div role="rowgroup" className="min-h-0 flex-1 overflow-y-auto">
@@ -120,14 +102,14 @@ export function TradesFeed({
             ))}
           </div>
         ) : (
-          trades.map((t) => (
+          trades.map((trade) => (
             <TradeRow
-              key={t.id}
-              trade={t}
+              key={trade.id}
+              trade={trade}
               pricePrecision={pricePrecision}
               amountPrecision={amountPrecision}
               locale={locale}
-              sideLabel={t.side === 'buy' ? labels.buy : labels.sell}
+              sideLabel={trade.side === 'buy' ? t('trades.buy') : t('trades.sell')}
             />
           ))
         )}

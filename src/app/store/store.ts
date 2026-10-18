@@ -5,6 +5,7 @@ import { orderBookSlice } from '@/entities/order-book'
 import { pairsSlice } from '@/entities/pair'
 import { tickersSlice } from '@/entities/ticker'
 import { tradesSlice } from '@/entities/trade'
+import { digitsChanged, digitsSlice, saveDigits } from '@/features/switch-digits'
 import { applyTheme, themeChanged, themeSlice } from '@/features/switch-theme'
 import { favoritesSlice, favoriteToggled, saveFavorites } from '@/features/toggle-favorite'
 
@@ -16,6 +17,7 @@ const rootReducer = combineSlices(
   tradesSlice,
   connectionSlice,
   favoritesSlice,
+  digitsSlice,
 )
 
 export type RootState = ReturnType<typeof rootReducer>
@@ -41,6 +43,13 @@ function createListeners() {
     actionCreator: favoriteToggled,
     effect: (_action, api) => {
       saveFavorites((api.getState() as RootState).favorites.symbols)
+    },
+  })
+
+  listener.startListening({
+    actionCreator: digitsChanged,
+    effect: (action) => {
+      saveDigits(action.payload)
     },
   })
 

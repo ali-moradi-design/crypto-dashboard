@@ -1,1 +1,1 @@
-export { ChartPanel, type ChartPanelLabels } from './ui/ChartPanel'
+export { ChartPanel } from './ui/ChartPanel'

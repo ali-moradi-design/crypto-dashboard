@@ -1,1 +1,1 @@
-export { PairHeader, type PairHeaderLabels } from './ui/PairHeader'
+export { PairHeader } from './ui/PairHeader'

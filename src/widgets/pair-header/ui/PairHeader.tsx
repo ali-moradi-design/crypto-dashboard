@@ -6,32 +6,20 @@ import { PriceChange, selectTicker } from '@/entities/ticker'
 import type { MarketSymbol } from '@/shared/api/market-data'
 import { DEFAULT_LOCALE } from '@/shared/config/locale'
 import { formatCompact, formatPrice, guessPrecision } from '@/shared/lib/format'
+import { useTranslation } from '@/shared/lib/i18n'
 import { Skeleton } from '@/shared/ui/skeleton'
 
 type State = Parameters<typeof selectTicker>[0] & Parameters<typeof selectPair>[0]
-
-export interface PairHeaderLabels {
-  high: string
-  low: string
-  volume: (asset: string) => string
-}
-
-const LABELS: PairHeaderLabels = {
-  high: '24h high',
-  low: '24h low',
-  volume: (asset) => `24h volume (${asset})`,
-}
 
 /** Last price and 24h stats of the selected pair. */
 export function PairHeader({
   symbol,
   locale = DEFAULT_LOCALE,
-  labels = LABELS,
 }: {
   symbol: MarketSymbol
   locale?: string
-  labels?: PairHeaderLabels
 }) {
+  const { t } = useTranslation()
   const ticker = useSelector((s: State) => selectTicker(s, symbol))
   const pair = useSelector((s: State) => selectPair(s, symbol))
   const { base, quote } = splitSymbol(symbol)
@@ -53,10 +41,8 @@ export function PairHeader({
   }, [last])
 
   useEffect(() => {
-    document.title = lastText
-      ? `${lastText} ${base}/${quote} · Crypto dashboard`
-      : 'Crypto dashboard'
-  }, [lastText, base, quote])
+    document.title = lastText ? `${lastText} ${base}/${quote} · ${t('app.title')}` : t('app.title')
+  }, [lastText, base, quote, t])
 
   useEffect(
     () => () => {
@@ -68,8 +54,8 @@ export function PairHeader({
   const stat = (label: string, value: string | undefined) => (
     <div className="min-w-0">
       <dt className="text-xs text-muted-foreground">{label}</dt>
-      <dd className="tabular truncate text-sm" dir="ltr">
-        {value ?? <Skeleton className="h-4 w-16" />}
+      <dd className="tabular truncate text-sm">
+        {value ? <bdi>{value}</bdi> : <Skeleton className="h-4 w-16" />}
       </dd>
     </div>
   )
@@ -97,10 +83,16 @@ export function PairHeader({
         ) : null}
       </div>
       <dl className="grid grid-cols-2 gap-x-4 gap-y-1 sm:flex sm:gap-6">
-        {stat(labels.high, ticker ? formatPrice(ticker.high24h, precision, locale) : undefined)}
-        {stat(labels.low, ticker ? formatPrice(ticker.low24h, precision, locale) : undefined)}
-        {stat(labels.volume(base), ticker ? formatCompact(ticker.baseVolume, locale) : undefined)}
-        {stat(labels.volume(quote), ticker ? formatCompact(ticker.quoteVolume, locale) : undefined)}
+        {stat(t('stats.high'), ticker ? formatPrice(ticker.high24h, precision, locale) : undefined)}
+        {stat(t('stats.low'), ticker ? formatPrice(ticker.low24h, precision, locale) : undefined)}
+        {stat(
+          t('stats.volume', { asset: base }),
+          ticker ? formatCompact(ticker.baseVolume, locale) : undefined,
+        )}
+        {stat(
+          t('stats.volume', { asset: quote }),
+          ticker ? formatCompact(ticker.quoteVolume, locale) : undefined,
+        )}
       </dl>
     </section>
   )

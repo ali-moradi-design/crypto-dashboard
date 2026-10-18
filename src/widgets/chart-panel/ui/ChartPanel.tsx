@@ -6,6 +6,7 @@ import { selectTicker } from '@/entities/ticker'
 import { INTERVALS, type Interval, type MarketSymbol } from '@/shared/api/market-data'
 import { DEFAULT_LOCALE } from '@/shared/config/locale'
 import { guessPrecision } from '@/shared/lib/format'
+import { useTranslation } from '@/shared/lib/i18n'
 import { storage } from '@/shared/lib/storage'
 import { cn } from '@/shared/lib/utils'
 
@@ -15,29 +16,16 @@ type State = Parameters<typeof selectPair>[0] & Parameters<typeof selectTicker>[
 
 const INTERVAL_KEY = 'cd.interval'
 
-export interface ChartPanelLabels {
-  intervals: string
-  loading: string
-  error: string
-}
-
-const LABELS: ChartPanelLabels = {
-  intervals: 'Candle interval',
-  loading: 'Loading chart…',
-  error: 'Could not load the chart. It will retry when the connection is back.',
-}
-
 export function ChartPanel({
   symbol,
   theme,
   locale = DEFAULT_LOCALE,
-  labels = LABELS,
 }: {
   symbol: MarketSymbol
   theme: string
   locale?: string
-  labels?: ChartPanelLabels
 }) {
+  const { t } = useTranslation()
   const [interval, setInterval] = useState<Interval>(() => {
     const saved = storage.get<string>(INTERVAL_KEY, '1h')
     return (INTERVALS as readonly string[]).includes(saved) ? (saved as Interval) : '1h'
@@ -54,7 +42,7 @@ export function ChartPanel({
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex flex-wrap items-center gap-2 border-b px-2 py-1.5">
-        <div role="group" aria-label={labels.intervals} className="flex gap-0.5" dir="ltr">
+        <div role="group" aria-label={t('chart.intervals')} className="flex gap-0.5" dir="ltr">
           {INTERVALS.map((i) => (
             <button
               key={i}
@@ -84,7 +72,7 @@ export function ChartPanel({
         <div ref={container} className="absolute inset-0" data-testid="candle-chart" />
         {status !== 'ready' ? (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-card/60 text-sm text-muted-foreground">
-            {status === 'loading' ? labels.loading : labels.error}
+            {status === 'loading' ? t('chart.loading') : t('chart.error')}
           </div>
         ) : null}
       </div>

@@ -1,1 +1,1 @@
-export { TradesFeed, type TradesFeedLabels } from './ui/TradesFeed'
+export { TradesFeed } from './ui/TradesFeed'
