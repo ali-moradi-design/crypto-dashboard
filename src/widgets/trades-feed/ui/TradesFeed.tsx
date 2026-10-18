@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectPair, splitSymbol } from '@/entities/pair'
@@ -24,22 +23,10 @@ interface RowProps {
 
 /** Keyed by trade id and memoized: when a new trade arrives only it renders. */
 function TradeRow({ trade, pricePrecision, amountPrecision, locale, sideLabel }: RowProps) {
-  const ref = useRef<HTMLDivElement>(null)
   const buy = trade.side === 'buy'
 
-  // Flash trades that just happened (not the history loaded at start).
-  useEffect(() => {
-    if (ref.current && Date.now() - trade.time < 3000) {
-      ref.current.dataset.flash = buy ? 'up-a' : 'down-a'
-    }
-  }, [buy, trade.time])
-
   return (
-    <div
-      ref={ref}
-      role="row"
-      className="tabular grid grid-cols-[1fr_1fr_auto] gap-2 px-2 py-px text-xs"
-    >
+    <div role="row" className="tabular grid grid-cols-[1fr_1fr_auto] gap-2 px-2 py-px text-xs">
       <span
         role="cell"
         className={cn('inline-flex items-center gap-1', buy ? 'text-up' : 'text-down')}

@@ -32,7 +32,7 @@ export function PairHeader({
   const last = ticker?.last
   const lastText = last === undefined ? undefined : formatPrice(last, precision, locale)
 
-  // Flash the price (DOM only) and show it in the tab title.
+  // Tint the price on a tick (DOM only) and show it in the tab title.
   useEffect(() => {
     const previous = lastPrice.current
     lastPrice.current = last
@@ -73,12 +73,7 @@ export function PairHeader({
           {base}
           <span className="text-muted-foreground">/{quote}</span>
         </h1>
-        <span
-          ref={priceRef}
-          className="tabular rounded px-1 text-xl font-semibold"
-          dir="ltr"
-          aria-live="off"
-        >
+        <span ref={priceRef} className="tabular text-xl font-semibold" dir="ltr" aria-live="off">
           {lastText ?? <Skeleton className="inline-block h-6 w-24 align-middle" />}
         </span>
         {ticker ? (
