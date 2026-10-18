@@ -5,6 +5,7 @@ export const fa: Messages = {
     title: 'داشبورد رمزارز',
     notAdvice: 'این توصیهٔ مالی نیست.',
     dataFrom: 'داده‌های بازار از API عمومی <1>Gate</1> گرفته می‌شود. این یک نمونهٔ فنی است.',
+    builtBy: 'ساختهٔ <1>علی مرادی</1>',
     chartsBy: 'نمودارها با <1>TradingView</1> Lightweight Charts™.',
   },
   theme: { toDark: 'رفتن به تم تیره', toLight: 'رفتن به تم روشن' },

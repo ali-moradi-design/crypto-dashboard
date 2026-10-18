@@ -5,6 +5,7 @@ export const tr: Messages = {
     title: 'Kripto paneli',
     notAdvice: 'Yatırım tavsiyesi değildir.',
     dataFrom: 'Piyasa verileri herkese açık <1>Gate</1> API’sinden alınır. Bu bir teknik demodur.',
+    builtBy: 'Geliştiren: <1>Ali Moradi</1>',
     chartsBy: 'Grafikler: <1>TradingView</1> Lightweight Charts™.',
   },
   theme: { toDark: 'Koyu temaya geç', toLight: 'Açık temaya geç' },
