@@ -148,11 +148,11 @@ function DesktopLayout({
       defaultLayout={columns.defaultLayout}
       onLayoutChanged={columns.onLayoutChanged}
     >
-      <ResizablePanel id="markets" defaultSize="26" minSize={280} maxSize="45">
+      <ResizablePanel id="markets" defaultSize="28" minSize={340} maxSize="45">
         {markets}
       </ResizablePanel>
       <Gap orientation="horizontal" />
-      <ResizablePanel id="center" defaultSize="52" minSize="30">
+      <ResizablePanel id="center" defaultSize="51" minSize={360}>
         <ResizablePanelGroup
           orientation="vertical"
           defaultLayout={center.defaultLayout}

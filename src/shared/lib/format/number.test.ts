@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
-import { formatCompact, formatPercent, formatPrice, guessPrecision, numberFormat } from './number'
+import {
+  formatCompact,
+  formatPercent,
+  formatPrice,
+  formatSize,
+  guessPrecision,
+  numberFormat,
+} from './number'
 
 describe('number formatting', () => {
   it('formats prices with a fixed precision', () => {
@@ -35,5 +42,11 @@ describe('number formatting', () => {
     expect(guessPrecision(2.5)).toBe(4)
     expect(guessPrecision(0.0123)).toBe(5)
     expect(guessPrecision(0.000004123)).toBe(9)
+  })
+
+  it('formats sizes compactly from one million', () => {
+    expect(formatSize(0.012345, 6)).toBe('0.012345')
+    expect(formatSize(999_999, 0)).toBe('999,999')
+    expect(formatSize(10_341_349_338, 0)).toBe('10.34B')
   })
 })

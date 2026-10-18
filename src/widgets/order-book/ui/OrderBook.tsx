@@ -4,7 +4,7 @@ import { selectAsks, selectBids, selectSpread } from '@/entities/order-book'
 import { selectPair, splitSymbol } from '@/entities/pair'
 import type { MarketSymbol } from '@/shared/api/market-data'
 import { DEFAULT_LOCALE } from '@/shared/config/locale'
-import { formatAmount, formatPrice, guessPrecision, numberFormat } from '@/shared/lib/format'
+import { formatSize, formatPrice, guessPrecision, numberFormat } from '@/shared/lib/format'
 import { useTranslation } from '@/shared/lib/i18n'
 import { cn } from '@/shared/lib/utils'
 import { Skeleton } from '@/shared/ui/skeleton'
@@ -50,7 +50,7 @@ function BookRow({
       role="row"
       style={{ '--depth': `${depth.toFixed(1)}%` } as React.CSSProperties}
       className={cn(
-        'tabular grid grid-cols-3 px-2 py-px text-xs',
+        'tabular grid grid-cols-2 gap-x-2 px-2 py-px text-xs @[18rem]:grid-cols-3',
         side === 'bid'
           ? 'bg-[linear-gradient(to_left,var(--up-soft)_var(--depth),transparent_var(--depth))]'
           : 'bg-[linear-gradient(to_left,var(--down-soft)_var(--depth),transparent_var(--depth))]',
@@ -60,10 +60,10 @@ function BookRow({
         {formatPrice(price, pricePrecision, locale)}
       </span>
       <span role="cell" className="text-end">
-        {formatAmount(amount, amountPrecision, locale)}
+        {formatSize(amount, amountPrecision, locale)}
       </span>
-      <span role="cell" className="text-end text-muted-foreground">
-        {formatAmount(total, amountPrecision, locale)}
+      <span role="cell" className="hidden text-end text-muted-foreground @[18rem]:block">
+        {formatSize(total, amountPrecision, locale)}
       </span>
     </div>
   )
@@ -106,14 +106,17 @@ export function OrderBook({
       role="table"
       aria-label={`${base}/${quote}`}
       dir="ltr"
-      className="flex min-h-0 flex-1 flex-col py-1"
+      className="@container flex min-h-0 flex-1 flex-col py-1"
     >
-      <div role="row" className="grid grid-cols-3 px-2 pb-1 text-[0.7rem] text-muted-foreground">
+      <div
+        role="row"
+        className="grid grid-cols-2 gap-x-2 px-2 pb-1 text-[0.7rem] whitespace-nowrap text-muted-foreground @[18rem]:grid-cols-3"
+      >
         <span role="columnheader">{t('book.price', { asset: quote })}</span>
-        <span role="columnheader" className="text-end">
+        <span role="columnheader" className="truncate text-end">
           {t('book.amount', { asset: base })}
         </span>
-        <span role="columnheader" className="text-end">
+        <span role="columnheader" className="hidden text-end @[18rem]:block">
           {t('book.total')}
         </span>
       </div>

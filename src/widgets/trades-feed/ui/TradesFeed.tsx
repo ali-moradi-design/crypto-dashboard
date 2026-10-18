@@ -4,7 +4,7 @@ import { selectPair, splitSymbol } from '@/entities/pair'
 import { selectTrades } from '@/entities/trade'
 import type { MarketSymbol, Trade } from '@/shared/api/market-data'
 import { DEFAULT_LOCALE } from '@/shared/config/locale'
-import { formatAmount, formatClock, formatPrice, guessPrecision } from '@/shared/lib/format'
+import { formatSize, formatClock, formatPrice, guessPrecision } from '@/shared/lib/format'
 import { useTranslation } from '@/shared/lib/i18n'
 import { cn } from '@/shared/lib/utils'
 import { Skeleton } from '@/shared/ui/skeleton'
@@ -41,7 +41,7 @@ function TradeRow({ trade, pricePrecision, amountPrecision, locale, sideLabel }:
         {formatPrice(trade.price, pricePrecision, locale)}
       </span>
       <span role="cell" className="text-end">
-        {formatAmount(trade.amount, amountPrecision, locale)}
+        {formatSize(trade.amount, amountPrecision, locale)}
       </span>
       <span role="cell" className="text-end text-muted-foreground">
         {formatClock(trade.time, locale)}
@@ -70,7 +70,7 @@ export function TradesFeed({
       role="table"
       aria-label={`${base}/${quote}`}
       dir="ltr"
-      className="flex min-h-0 flex-1 flex-col py-1"
+      className="@container flex min-h-0 flex-1 flex-col py-1"
     >
       <div
         role="row"

@@ -46,7 +46,7 @@ export function MarketTable({ selectedSymbol, onSelect, locale }: MarketTablePro
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className="@container flex min-h-0 flex-1 flex-col">
       <div className="flex flex-col gap-2 border-b p-2">
         <div className="relative">
           <Search
@@ -90,9 +90,9 @@ export function MarketTable({ selectedSymbol, onSelect, locale }: MarketTablePro
           <colgroup>
             <col className="w-7" />
             <col />
-            <col className="hidden w-16 sm:table-column lg:hidden xl:table-column" />
+            <col className="hidden w-[4.5rem] @[25rem]:table-column" />
             <col className="w-[6.5rem]" />
-            <col className="w-[5.25rem]" />
+            <col className="w-[4.75rem] @[22rem]:w-[5.5rem]" />
           </colgroup>
           <thead className="sticky top-0 z-10 bg-card text-xs text-muted-foreground">
             <tr className="border-b">
@@ -116,7 +116,7 @@ export function MarketTable({ selectedSymbol, onSelect, locale }: MarketTablePro
                   onSort={toggleSort}
                 />
               </th>
-              <th scope="col" className="hidden sm:table-cell lg:hidden xl:table-cell">
+              <th scope="col" className="hidden @[25rem]:table-cell">
                 <span className="sr-only">{t('markets.last24h')}</span>
               </th>
               <SortHeader
@@ -182,7 +182,7 @@ function SortButton({
         onSort(sortKey)
       }}
       className={cn(
-        'inline-flex items-center gap-1 hover:text-foreground',
+        'inline-flex items-center gap-0.5 hover:text-foreground',
         active && 'text-foreground',
       )}
     >
