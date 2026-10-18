@@ -84,22 +84,22 @@ Public market data only, no API key. Pair format `BASE_QUOTE` (e.g. `BTC_USDT`).
 
 REST, base `https://api.gateio.ws/api/v4`:
 
-| Data | Endpoint |
-|---|---|
-| All tickers (price, 24h change, volume, high/low) | `GET /spot/tickers` (optional `currency_pair`) |
-| Candle history | `GET /spot/candlesticks?currency_pair=&interval=&limit=` |
-| Order book snapshot | `GET /spot/order_book?currency_pair=&limit=&with_id=true` |
-| Recent trades | `GET /spot/trades?currency_pair=&limit=` |
+| Data                                              | Endpoint                                                  |
+| ------------------------------------------------- | --------------------------------------------------------- |
+| All tickers (price, 24h change, volume, high/low) | `GET /spot/tickers` (optional `currency_pair`)            |
+| Candle history                                    | `GET /spot/candlesticks?currency_pair=&interval=&limit=`  |
+| Order book snapshot                               | `GET /spot/order_book?currency_pair=&limit=&with_id=true` |
+| Recent trades                                     | `GET /spot/trades?currency_pair=&limit=`                  |
 
 WebSocket, `wss://api.gateio.ws/ws/v4/`. Subscribe with
 `{"time": <unix s>, "channel": "<name>", "event": "subscribe", "payload": [...]}`:
 
-| Data | Channel | Payload |
-|---|---|---|
-| Ticker | `spot.tickers` | `["BTC_USDT", ...]` |
-| Candles | `spot.candlesticks` | `["1m", "BTC_USDT"]` (one pair+interval per subscribe) |
-| Order book (top N snapshot) | `spot.order_book` | `["BTC_USDT", "20", "100ms"]` |
-| Trades | `spot.trades` | `["BTC_USDT", ...]` |
+| Data                        | Channel             | Payload                                                |
+| --------------------------- | ------------------- | ------------------------------------------------------ |
+| Ticker                      | `spot.tickers`      | `["BTC_USDT", ...]`                                    |
+| Candles                     | `spot.candlesticks` | `["1m", "BTC_USDT"]` (one pair+interval per subscribe) |
+| Order book (top N snapshot) | `spot.order_book`   | `["BTC_USDT", "20", "100ms"]`                          |
+| Trades                      | `spot.trades`       | `["BTC_USDT", ...]`                                    |
 
 Notes:
 

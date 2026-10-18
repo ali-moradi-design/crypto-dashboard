@@ -1,0 +1,11 @@
+/* Temporary base styles. Tailwind CSS replaces this file in a later step. */
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  background: #0b0e11;
+  color: #e6e8ea;
+}
+
+body {
+  margin: 0;
+}
