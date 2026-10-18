@@ -1,3 +1,4 @@
+import { ConnectionBadge } from '@/entities/connection'
 import { ThemeToggle } from '@/features/switch-theme'
 
 export function AppHeader() {
@@ -6,7 +7,8 @@ export function AppHeader() {
       <div className="flex h-12 items-center gap-3 px-3 sm:px-4">
         <span aria-hidden className="bg-brand-gradient size-6 rounded-md" />
         <span className="font-semibold tracking-tight">Crypto dashboard</span>
-        <div className="ms-auto flex items-center gap-1">
+        <div className="ms-auto flex items-center gap-2">
+          <ConnectionBadge />
           <ThemeToggle />
         </div>
       </div>
