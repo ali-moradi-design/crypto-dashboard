@@ -15,7 +15,7 @@ export function App({ createSource }: { createSource?: () => MarketDataSource })
     <StoreProvider>
       <MarketDataRoot {...(createSource ? { createSource } : {})}>
         <BrowserRouter>
-          <div className="flex min-h-dvh flex-col">
+          <div className="flex min-h-dvh flex-col lg:h-dvh lg:min-h-0">
             <AppHeader />
             <Routes>
               <Route path="/:lang/:pair?" element={<DashboardPage />} />

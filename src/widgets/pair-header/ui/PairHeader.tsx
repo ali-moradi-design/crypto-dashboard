@@ -77,7 +77,7 @@ export function PairHeader({
   return (
     <section
       aria-label={`${base}/${quote}`}
-      className="flex flex-wrap items-center gap-x-6 gap-y-2 rounded-lg border bg-card px-3 py-2"
+      className="flex flex-col gap-2 rounded-lg border bg-card px-3 py-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6"
     >
       <div className="flex items-baseline gap-3">
         <h1 className="text-lg font-semibold" dir="ltr">
@@ -96,7 +96,7 @@ export function PairHeader({
           <PriceChange value={ticker.changePercent} locale={locale} className="text-sm" />
         ) : null}
       </div>
-      <dl className="grid flex-1 grid-cols-2 gap-x-6 gap-y-1 sm:flex sm:flex-none sm:gap-6">
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-1 sm:flex sm:gap-6">
         {stat(labels.high, ticker ? formatPrice(ticker.high24h, precision, locale) : undefined)}
         {stat(labels.low, ticker ? formatPrice(ticker.low24h, precision, locale) : undefined)}
         {stat(labels.volume(base), ticker ? formatCompact(ticker.baseVolume, locale) : undefined)}
