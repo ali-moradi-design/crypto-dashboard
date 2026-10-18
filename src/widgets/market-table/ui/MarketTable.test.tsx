@@ -62,7 +62,7 @@ describe('MarketRow rendering', () => {
     expect(renders.BTC_USDT).toBe((initial.BTC_USDT ?? 0) + 1)
   })
 
-  it('flashes the row green when the price goes up and red when it goes down', () => {
+  it('tints the price green when it goes up and red when it goes down', () => {
     const store = storeWithMarkets()
     render(
       <Provider store={store}>
@@ -73,15 +73,15 @@ describe('MarketRow rendering', () => {
         </table>
       </Provider>,
     )
-    const row = screen.getByRole('row')
+    const price = screen.getByText('81,000.00')
     act(() => {
       store.dispatch(tickersUpdated([makeTicker('BTC_USDT', 81010)]))
     })
-    expect(row.dataset.flash).toBe('up-a')
+    expect(price.dataset.flash).toBe('up-a')
     act(() => {
       store.dispatch(tickersUpdated([makeTicker('BTC_USDT', 81000)]))
     })
-    expect(row.dataset.flash).toBe('down-b')
+    expect(price.dataset.flash).toBe('down-b')
   })
 })
 

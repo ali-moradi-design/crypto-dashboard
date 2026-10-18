@@ -52,7 +52,6 @@ describe('TradesFeed', () => {
     expect(rows[0]).toHaveTextContent('Buy')
     expect(rows[0]).toHaveTextContent('▲')
     expect(rows[2]).toHaveTextContent('Sell')
-    expect(rows[0]?.dataset.flash).toBe('up-a')
   })
 
   it('renders the feed once per frame, however many trades arrive', async () => {

@@ -37,7 +37,7 @@ test.describe('dashboard', () => {
       .getByRole('row', { name: /BTC\/USDT/ })
     await expect(row).toContainText('81,234.5')
     await expect(row).toContainText('+2.25%')
-    await expect(row).toHaveAttribute('data-flash', /^up-/)
+    await expect(row.getByText('81,234.5')).toHaveAttribute('data-flash', /^up-/)
     await expect(page).toHaveTitle(/81,234\.5 BTC\/USDT/)
 
     await expect.poll(() => gate.subscriptions()).toContain('spot.trades:BTC_USDT')

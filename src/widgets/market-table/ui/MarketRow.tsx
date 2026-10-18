@@ -34,20 +34,20 @@ export function MarketRow({
   const ticker = useSelector((s: State) => selectTicker(s, symbol))
   const pair = useSelector((s: State) => selectPair(s, symbol))
   const sparkline = useSelector((s: State) => selectSparkline(s, symbol))
-  const rowRef = useRef<HTMLTableRowElement>(null)
+  const priceRef = useRef<HTMLSpanElement>(null)
   const lastPrice = useRef<number | undefined>(undefined)
   const last = ticker?.last
 
-  // Flash the row on a price change by toggling a data attribute directly on
-  // the DOM node: no extra React render for the animation.
+  // Tint the price on a tick by toggling a data attribute directly on the DOM
+  // node: no extra React render for the animation.
   useEffect(() => {
     const previous = lastPrice.current
     lastPrice.current = last
-    const row = rowRef.current
-    if (!row || previous === undefined || last === undefined || last === previous) return
+    const el = priceRef.current
+    if (!el || previous === undefined || last === undefined || last === previous) return
     const direction = last > previous ? 'up' : 'down'
-    const variant = row.dataset.flash?.endsWith('a') ? 'b' : 'a'
-    row.dataset.flash = `${direction}-${variant}`
+    const variant = el.dataset.flash?.endsWith('a') ? 'b' : 'a'
+    el.dataset.flash = `${direction}-${variant}`
   }, [last])
 
   const { base, quote } = splitSymbol(symbol)
@@ -55,7 +55,6 @@ export function MarketRow({
 
   return (
     <tr
-      ref={rowRef}
       aria-selected={selected}
       onClick={
         onSelect
@@ -91,7 +90,7 @@ export function MarketRow({
       </td>
       <td className="tabular px-1 text-end">
         {ticker ? (
-          <bdi>{formatPrice(ticker.last, precision, locale)}</bdi>
+          <bdi ref={priceRef}>{formatPrice(ticker.last, precision, locale)}</bdi>
         ) : (
           <Skeleton className="ms-auto h-4 w-16" />
         )}

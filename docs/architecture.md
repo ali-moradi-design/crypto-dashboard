@@ -112,7 +112,8 @@ Gate WebSocket ──► GateSource (parse, route by channel+pair)
   its object identity, so its row does not re-render.
 - Each market row subscribes to its own ticker. The sorted list selector returns
   the same array while the order is unchanged (`resultEqualityCheck`).
-- Price flashes toggle a `data-flash` attribute on the DOM node in an effect, so
+- Price ticks tint only the number (no background) by toggling a `data-flash`
+  attribute on the DOM node in an effect, so
   the animation costs no React render.
 - Trades are keyed by id and existing trade objects are kept, so only new rows
   render. Order book rows take primitive props only.
