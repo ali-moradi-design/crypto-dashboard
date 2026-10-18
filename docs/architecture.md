@@ -114,7 +114,7 @@ Gate WebSocket ──► GateSource (parse, route by channel+pair)
 ## Performance rules
 
 - WebSocket messages are buffered and dispatched at most once per animation frame
-  (`requestAnimationFrame`); the order book is also throttled to 4 updates per
+  (`requestAnimationFrame`); the order book is also throttled to 2 updates per
   second (Gate sends 10) so it stays readable. Browsers pause it in hidden tabs, so nothing renders
   there; after a minute hidden the socket closes, and it reopens (with fresh
   snapshots) when the tab is visible.
