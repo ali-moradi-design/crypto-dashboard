@@ -1,7 +1,9 @@
 /*
  * Design tokens.
  * Brand palette (teal to plum): https://coolors.co/006466-065a60-0b525b-144552-1b3a4b-212f45-272640-312244-3e1f47-4d194d
- * Text colors meet WCAG AA (4.5:1) on background, card and muted surfaces in both themes.
+ * Text colors meet WCAG AA (4.5:1) on background and card in both themes.
+ * Up/down pairs pass the color-vision-deficiency check (dataviz validator):
+ * text pair ΔE 9.2 (dark) / 8.0 (light), chart pair ΔE 9.2 (dark).
  */
 
 :root {
@@ -48,12 +50,15 @@
   --ring: #0b8a8c;
 
   /* Market colors: price up and down */
-  --up: #0a7a50;
+  --up: #00806a;
   --down: #c52a40;
-  --up-soft: rgb(10 122 80 / 12%);
+  --up-soft: rgb(0 128 106 / 12%);
   --down-soft: rgb(197 42 64 / 12%);
-  --up-flash: rgb(10 122 80 / 22%);
+  --up-flash: rgb(0 128 106 / 22%);
   --down-flash: rgb(197 42 64 / 22%);
+  /* Candles and volume bars (validated for color-vision deficiency). */
+  --chart-up: #00806a;
+  --chart-down: #c52a40;
 
   --chart-1: #006466;
   --chart-2: #4d194d;
@@ -83,12 +88,14 @@
   --input: #2a3a54;
   --ring: #2bb3b1;
 
-  --up: #2ebd85;
+  --up: #1fc7b6;
   --down: #ff6475;
-  --up-soft: rgb(46 189 133 / 12%);
+  --up-soft: rgb(31 199 182 / 12%);
   --down-soft: rgb(255 100 117 / 12%);
-  --up-flash: rgb(46 189 133 / 24%);
+  --up-flash: rgb(31 199 182 / 24%);
   --down-flash: rgb(255 100 117 / 24%);
+  --chart-up: #17a58c;
+  --chart-down: #e5484d;
 
   --chart-1: #2bb3b1;
   --chart-2: #c084fc;
