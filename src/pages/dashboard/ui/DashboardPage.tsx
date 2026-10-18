@@ -8,7 +8,9 @@ import { DEFAULT_LOCALE, isLocale } from '@/shared/config/i18n'
 import { DEFAULT_SYMBOL, DEFAULT_SYMBOLS } from '@/shared/config/markets'
 import { cn } from '@/shared/lib/utils'
 import { MarketTable } from '@/widgets/market-table'
+import { OrderBook } from '@/widgets/order-book'
 import { PairHeader } from '@/widgets/pair-header'
+import { TradesFeed } from '@/widgets/trades-feed'
 
 function Panel({
   title,
@@ -63,20 +65,24 @@ export function DashboardPage() {
   }
 
   return (
-    <main className="grid flex-1 gap-2 p-2 lg:grid-cols-[minmax(21rem,25rem)_1fr_minmax(16rem,20rem)] lg:grid-rows-[auto_minmax(26rem,1fr)_minmax(14rem,auto)]">
+    <main className="grid flex-1 gap-2 p-2 lg:min-h-0 lg:grid-cols-[minmax(21rem,25rem)_1fr_minmax(16rem,20rem)] lg:grid-rows-[auto_minmax(0,1fr)_16rem]">
       <div className="lg:col-span-3">
         <PairHeader symbol={pair} locale={lang} />
       </div>
-      <Panel title="Markets" className="max-h-[70dvh] lg:row-span-2 lg:max-h-none">
+      <Panel title="Markets" className="max-h-[70dvh] lg:row-span-2 lg:max-h-none lg:min-h-0">
         <MarketTable selectedSymbol={pair} onSelect={select} />
       </Panel>
-      <Panel title="Chart" className="min-h-[26rem]">
+      <Panel title="Chart" className="min-h-[26rem] lg:min-h-0">
         <Suspense fallback={<ChartFallback />}>
           <ChartPanel symbol={pair} theme={theme} locale={lang} />
         </Suspense>
       </Panel>
-      <Panel title="Order book" className="lg:row-span-2" />
-      <Panel title="Recent trades" />
+      <Panel title="Order book" className="lg:row-span-2 lg:min-h-0">
+        <OrderBook symbol={pair} locale={lang} />
+      </Panel>
+      <Panel title="Recent trades" className="max-h-96 lg:max-h-none lg:min-h-0">
+        <TradesFeed symbol={pair} locale={lang} />
+      </Panel>
     </main>
   )
 }

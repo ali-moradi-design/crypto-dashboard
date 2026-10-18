@@ -65,10 +65,9 @@ export function MarketRow({
       className={cn(
         'market-row border-b border-border/50 text-sm last:border-0',
         onSelect && 'cursor-pointer hover:bg-muted/60',
-        selected && 'bg-accent/60',
       )}
     >
-      <td className="w-7 ps-1">
+      <td className={cn('w-7 border-s-2 ps-0.5', selected ? 'border-ring' : 'border-transparent')}>
         <FavoriteButton symbol={symbol} label={`Favorite ${base}/${quote}`} />
       </td>
       <th scope="row" className="truncate py-1.5 text-start font-normal whitespace-nowrap">

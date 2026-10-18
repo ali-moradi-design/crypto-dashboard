@@ -80,7 +80,7 @@ export function ChartPanel({
         />
       </div>
       {/* Chart axes are never mirrored, also in RTL. */}
-      <div dir="ltr" className="relative min-h-72 flex-1">
+      <div dir="ltr" className="relative min-h-72 flex-1 lg:min-h-0">
         <div ref={container} className="absolute inset-0" data-testid="candle-chart" />
         {status !== 'ready' ? (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-card/60 text-sm text-muted-foreground">
