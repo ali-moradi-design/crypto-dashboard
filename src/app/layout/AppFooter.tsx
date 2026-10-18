@@ -14,6 +14,18 @@ export function AppFooter() {
         </a>{' '}
         API. This is a technical demo.
       </p>
+      <p className="mt-1">
+        Charts by{' '}
+        <a
+          className="underline underline-offset-2"
+          href="https://www.tradingview.com/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          TradingView
+        </a>{' '}
+        Lightweight Charts™.
+      </p>
     </footer>
   )
 }

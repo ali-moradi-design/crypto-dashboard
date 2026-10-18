@@ -1,2 +1,1 @@
-/** Default UI locale until i18n is wired in. */
-export const DEFAULT_LOCALE = 'en'
+export { DEFAULT_LOCALE } from './i18n'
