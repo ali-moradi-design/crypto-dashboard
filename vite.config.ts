@@ -23,7 +23,10 @@ export default defineConfig({
             { name: 'state', test: /node_modules[\\/](@reduxjs|redux|react-redux|immer|reselect)/ },
             { name: 'router', test: /node_modules[\\/]react-router/ },
             { name: 'i18n', test: /node_modules[\\/](i18next|react-i18next)/ },
-            { name: 'ui', test: /node_modules[\\/](radix-ui|@radix-ui|@floating-ui|lucide-react|cn)[\\/]/ },
+            {
+              name: 'ui',
+              test: /node_modules[\\/](radix-ui|@radix-ui|@floating-ui|lucide-react|cn)[\\/]/,
+            },
           ],
         },
       },
