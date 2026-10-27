@@ -61,7 +61,7 @@ Scope: [docs/brief.md](docs/brief.md).
 
 ## Getting started
 
-Requirements: Node.js 22 or newer, pnpm 10.
+Requirements: Node.js 24 or newer, pnpm 12.
 
 ```sh
 pnpm install
