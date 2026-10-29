@@ -39,6 +39,11 @@ export default defineConfig([
     languageOptions: { globals: globals.node },
   },
   {
+    // Plain scripts served as they are (public/theme-init.js) run in the browser.
+    files: ['public/**/*.js'],
+    languageOptions: { globals: globals.browser },
+  },
+  {
     // shadcn/ui files export variants next to components.
     files: ['src/shared/ui/**/*.tsx'],
     rules: { 'react-refresh/only-export-components': 'off' },

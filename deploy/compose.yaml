@@ -1,0 +1,17 @@
+# /srv/apps/crypto-dashboard/compose.yaml: the static build served by an
+# unprivileged Nginx container. No database, no server code. The image is built
+# in CI and only pulled here. .env next to this file holds IMAGE_TAG (the commit
+# SHA to run); deploy-app changes only that line.
+name: crypto-dashboard
+
+services:
+  web:
+    image: ghcr.io/ali-moradi-design/crypto-dashboard-web:${IMAGE_TAG:?IMAGE_TAG is not set}
+    # Nginx on the host proxies to this; Docker bypasses ufw, so loopback only
+    ports:
+      - '127.0.0.1:3109:8080'
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 64m
+    restart: unless-stopped
