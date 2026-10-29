@@ -59,8 +59,8 @@ repo are written in English.
 ## Scope
 
 One page plus a pair detail view (or one page with a selected pair). No server,
-no database, no login. Static build, deployed to `/srv/static/crypto-dashboard`
-(the deploy itself is done later in roadmap sessions, steps 7.2 and 7.3).
+no database, no login. Static build, served from an unprivileged Nginx container
+on the VPS (decided 2026-10-29; see `deploy/` and the README).
 
 1. Market table: ~20 pairs, live price flashing green/red on change, 24h change,
    volume, sparkline; sort, search, favorites (stored in localStorage).

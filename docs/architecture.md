@@ -69,8 +69,8 @@ Gate is the only implementation (`shared/api/gate`). The adapter:
 - Numbers and dates use `Intl` with a locale tag from `formatLocale()`: Persian
   digits by default (`fa-u-ca-gregory`), Latin on request
   (`fa-u-ca-gregory-nu-latn`), always the Gregorian calendar.
-- Static hosting must serve `index.html` for unknown paths (Nginx:
-  `try_files $uri /index.html;`).
+- The server must serve `index.html` for unknown paths: `nginx/default.conf` does
+  `try_files $uri /index.html;` (missing files under `/assets/` stay 404).
 
 ## Layout
 
@@ -208,3 +208,17 @@ reports code that breaks the Rules of React, which the compiler would skip.
   `tabular` utility) so live values do not shift columns.
 - shadcn/ui components live in `src/shared/ui`, added one by one with
   `pnpm dlx shadcn@latest add <name>`.
+
+## Deployment
+
+- `Dockerfile`: builds `dist` with Node, then copies only `dist` into
+  `nginx-unprivileged` (uid 101, port 8080, writes only to `/tmp`).
+- `nginx/`: SPA fallback, `/assets/` cached for a year (hashed names), `index.html`
+  revalidated (`no-cache`), only GET/HEAD, `/healthz` for the healthcheck, and the
+  security headers: a CSP that allows scripts only from the site (the theme script is
+  `public/theme-init.js`, not inline) and connections only to Gate's REST and
+  WebSocket API.
+- `.github/workflows/docker.yml`: after CI passes on `main`, builds and pushes
+  `ghcr.io/ali-moradi-design/crypto-dashboard-web:<sha>` and deploys it with
+  deploy-kit. `deploy/`: the server's compose file (port `127.0.0.1:3109`, read-only,
+  64 MB) and the host Nginx site.
